@@ -1,7 +1,10 @@
+#This script should initialize the service and set up the endpoints 
+
+#Authors: Juan Damaso, Diego de Dios
+
 import os
 
 from flask import Flask
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -23,7 +26,7 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-        
+
     @app.route('/pytools')
     def hello():
         return 'Ya me quiero graduar!'
