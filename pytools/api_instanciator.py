@@ -16,14 +16,12 @@ class CloudAPI:
 
         image = self._image_parser(content=content)
 
-        response = _client.text_detection(image=image)
+        response = self._client.text_detection(image=image)
 
-        self._decorate_json_file(response)
-
-        return "End!"
+        return self._decorate_json_file(response)
 
     def _handle_image_binary(self, image_path):
-        handler = container.ImageHandler(image)
+        handler = container.ImageHandler(image_path)
 
         bin_file = handler.get_image_content()
 
@@ -34,5 +32,6 @@ class CloudAPI:
         for text in response.text_annotations:
             result.append(str(text.description))
         print(result)
+
 
 
