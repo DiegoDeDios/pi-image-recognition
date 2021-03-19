@@ -31,7 +31,7 @@ class CloudAPI:
         result = []
         for text in response.text_annotations:
             result.append(str(text.description))
-        print(result)
+        return result
 
 
 
