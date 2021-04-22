@@ -3,7 +3,7 @@
 #Authors: Juan Damaso, Diego de Dios
 
 import os
-from flask import Flask
+from flask import Flask, flash
 import sys;sys.path.append(r"/home/diegoama/vision_counter")
 import pytools.api_instanciator as api_container
 

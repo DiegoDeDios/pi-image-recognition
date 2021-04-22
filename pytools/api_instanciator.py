@@ -27,11 +27,29 @@ class CloudAPI:
 
         return bin_file
 
+    def _analyze_response_data(self, response):
+        decorated_info = []
+        for data in response:
+            if not data.isnumeric():
+                print("Letter found in string!, original string was: %s"%(data)) #TODO replace temporal print for logic to reeplace letter for most similar match
+                for character in data:
+                    if character == "I":
+                        data = data.replace(character,"1")
+                    elif character == "o" or character == "O":
+                        data = data.replace(character, "0")
+                    elif character == "E":
+                        data = data.replace(character,"3")
+                decorated_info.append(data)
+            else:
+                decorated_info.append(data)
+        return decorated_info
+
     def _decorate_json_file(self, response):
         result = []
         for text in response.text_annotations:
             result.append(str(text.description))
-        return result
+        decorated_result = self._analyze_response_data(result[1:])
+        return decorated_result
 
 
 
