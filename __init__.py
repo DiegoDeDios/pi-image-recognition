@@ -4,7 +4,6 @@
 
 import os
 from flask import Flask, flash, request
-import sys;sys.path.append(r"/home/diegoama/vision_counter")
 import pytools.api_instanciator as api_container
 from PIL import Image
 
