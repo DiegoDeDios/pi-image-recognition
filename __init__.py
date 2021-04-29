@@ -4,6 +4,7 @@
 
 import os
 from flask import Flask, flash, request
+import sys; sys.path.insert(0, os.getenv("PYTOOLS"))
 import pytools.api_instanciator as api_container
 from PIL import Image
 
