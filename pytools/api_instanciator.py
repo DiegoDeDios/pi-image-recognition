@@ -45,7 +45,7 @@ class CloudAPI:
         error_margin = 0.0
         string_override = False 
         if len(response)!=2:
-            raise Exception("Image Response not valid")
+            raise Exception("Image not clear enough: %s"%(response))
         for data in response:
             error_margin += 1.0 - len(data)/self.COUNTER_LEN if len(data) < 6 else 0.0
             if not data.isnumeric():
