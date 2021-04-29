@@ -3,10 +3,10 @@
 #Authors: Juan Damaso, Diego de Dios
 
 import os
-from flask import Flask, flash
+from flask import Flask, flash, request
 import sys;sys.path.append(r"/home/diegoama/vision_counter")
 import pytools.api_instanciator as api_container
-
+from PIL import Image
 
 def create_app(test_config=None):
     # create and configure the app
@@ -33,7 +33,14 @@ def create_app(test_config=None):
     @app.route('/pytools')
     def return_image_raw_data():
         image_path = r"./vision_counter/pytools/counter_images/1.jpeg"
-        out = api.parse_image(image_path)
+        out = api.parse_image_from_path(image_path)
         return {os.path.basename(image_path) : out}
+    
+    @app.route('/image', methods=["POST"])
+    def get_image():
+        #img = Image.open(request.files['file'])
+        out = api.parse_image_from_request(request)
+        return {"keys":out}
+
 
     return app

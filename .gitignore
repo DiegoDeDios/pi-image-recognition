@@ -3,7 +3,7 @@ __pycache__/
 counter_images/
 
 instance/
-
+*.json
 .pytest_cache/
 .coverage
 htmlcov/

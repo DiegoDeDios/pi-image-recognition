@@ -11,7 +11,7 @@ class CloudAPI:
         self._client = vision.ImageAnnotatorClient()
         self._image_parser = vision.Image 
 
-    def parse_image(self, image_path):
+    def parse_image_from_path(self, image_path):
         content = self._handle_image_binary(image_path)
 
         image = self._image_parser(content=content)
@@ -20,10 +20,28 @@ class CloudAPI:
 
         return self._decorate_json_file(response)
 
+    def parse_image_from_request(self, request_obj):
+        if not request_obj.files["file"]:
+            raise Exception("Empty request")
+            
+        content = self._handle_image_binary_from_request(request_obj)
+
+        image = self._image_parser(content=content)
+
+        response = self._client.text_detection(image=image)
+
+        return self._decorate_json_file(response)
+
+    def _handle_image_binary_from_request(self, request_obj):
+        handler = container.ImageHandler()
+
+        bin_file = handler.get_image_from_request(request_obj)
+        return bin_file
+
     def _handle_image_binary(self, image_path):
         handler = container.ImageHandler(image_path)
 
-        bin_file = handler.get_image_content()
+        bin_file = handler.get_image_from_path()
 
         return bin_file
 
@@ -31,7 +49,7 @@ class CloudAPI:
         decorated_info = []
         for data in response:
             if not data.isnumeric():
-                print("Letter found in string!, original string was: %s"%(data)) #TODO replace temporal print for logic to reeplace letter for most similar match
+                print("Letter found in string!, original string was: %s"%(data))
                 for character in data:
                     if character == "I":
                         data = data.replace(character,"1")
