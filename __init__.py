@@ -32,15 +32,16 @@ def create_app(test_config=None):
 
     @app.route('/pytools')
     def return_image_raw_data():
-        image_path = r"./vision_counter/pytools/counter_images/1.jpeg"
-        out = api.parse_image_from_path(image_path)
-        return {os.path.basename(image_path) : out}
+        return "Test"
     
     @app.route('/image', methods=["POST"])
     def get_image():
         #img = Image.open(request.files['file'])
-        out = api.parse_image_from_request(request)
-        return {"keys":out}
+        try:
+            out, error, override = api.parse_image_from_request(request)
+            return {"counter_text":out, "_error_probability": "{:.2%}".format(error), "_overriden_string": override }
+        except Exception as e:
+            return "The image could not be parsed: %s\n"%(str(e))
 
 
     return app
